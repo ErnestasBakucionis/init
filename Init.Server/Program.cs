@@ -1,14 +1,18 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+var clientUrl = builder.Configuration["ClientUrl"];
 
-// Configure CORS policy
+if (string.IsNullOrEmpty(clientUrl))
+{
+    throw new InvalidOperationException("ClientUrl must be configured in the application settings.");
+}
+
+builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(clientUrl)
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -16,8 +20,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Use CORS
-app.UseCors("AllowAll");
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 
