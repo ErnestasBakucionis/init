@@ -1,0 +1,23 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h3>Message from Server</h3>
+
+@if (message == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>@message.Text (@message.Timestamp)</p>
+}
+
+@code {
+    private Message message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        message = await Http.GetFromJsonAsync<Message>("api/message");
+        StateHasChanged();
+    }
+}
