@@ -1,0 +1,19 @@
+﻿:root {
+    /* Backgrounds */
+    --color-background: #1e1e1e;
+    --color-surface: #2a2a2a;
+    /* Text */
+    --color-text: #f1f1f1;
+    --color-subtle: #b0b0b0;
+    /* Accent */
+    --color-accent: #00bcd4;
+    /* Spacing */
+    --padding-navbar: 1rem 2rem;
+    --logo-margin: 12px;
+    /* Typography */
+    --font-size-logo: 1.5rem;
+    --font-weight-logo: 600;
+    --letter-spacing: 0.5px;
+    /* Effects */
+    --box-shadow-navbar: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
