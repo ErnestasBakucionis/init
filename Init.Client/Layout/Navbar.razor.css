@@ -1,0 +1,30 @@
+﻿.navbar {
+    background-color: var(--color-background);
+    padding: var(--padding-navbar);
+    box-shadow: var(--box-shadow-navbar);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 40px;
+    margin-right: var(--logo-margin);
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-logo);
+    font-weight: var(--font-weight-logo);
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: var(--letter-spacing);
+    transition: color 0.3s ease;
+}
+
+    .navbar-logo:hover {
+        color: var(--color-accent);
+    }
