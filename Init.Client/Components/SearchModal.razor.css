@@ -1,0 +1,34 @@
+﻿.search-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-modal-content {
+    background-color: #2a2a2a;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal-search-input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 1.1rem;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    background-color: #333;
+    color: #f1f1f1;
+}
+
+    .modal-search-input::placeholder {
+        color: #b0b0b0;
+    }
