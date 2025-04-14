@@ -38,6 +38,12 @@
         color: var(--color-subtle);
     }
 
+    .modal-search-input:focus {
+        border: 2px solid var(--color-accent);
+        box-shadow: 0 0 8px var(--color-accent);
+    }
+
+
 .search-modal-body {
     flex: 1;
     margin-top: 1rem;
