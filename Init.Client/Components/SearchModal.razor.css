@@ -1,7 +1,7 @@
 ﻿.search-modal {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--color-overlay);
     backdrop-filter: blur(6px);
     z-index: 1000;
     display: flex;
@@ -11,12 +11,13 @@
 }
 
 .search-modal-content {
-    background-color: #2a2a2a;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    background-color: var(--color-modal-background);
+    padding: var(--padding-modal);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-modal);
     width: 90%;
     max-width: 700px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -29,20 +30,20 @@
     border: none;
     outline: none;
     border-radius: 6px;
-    background-color: #333;
-    color: #f1f1f1;
+    background-color: var(--input-background);
+    color: var(--color-text);
 }
 
     .modal-search-input::placeholder {
-        color: #b0b0b0;
+        color: var(--color-subtle);
     }
 
 .search-modal-body {
     flex: 1;
     margin-top: 1rem;
-    background-color: #1e1e1e;
+    background-color: var(--color-modal-body);
     border-radius: 6px;
     padding: 1rem;
     overflow-y: auto;
-    color: #ccc;
+    color: var(--color-subtle);
 }
