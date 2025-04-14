@@ -1,4 +1,6 @@
-﻿<nav class="navbar">
+﻿@inject IJSRuntime JS
+
+<div class="navbar">
     <div class="navbar-brand">
         <a href="/" class="navbar-logo">
             <img src="images/init_logo_nobg.png" alt="Logo" class="logo-img" />
@@ -7,7 +9,35 @@
 
         <div class="navbar-search-container">
             <img src="icons/search_icon.svg" alt="Search Icon" class="search-icon" />
-            <input type="text" placeholder="Search..." class="navbar-search" />
+            <input type="text"
+                   placeholder="Search... (press /)"
+                   class="navbar-search"
+                   @onfocus="() => ShowModal()" />
         </div>
     </div>
-</nav>
+</div>
+
+<SearchModal IsOpen="@IsModalOpen"
+             IsOpenChanged="@(value => IsModalOpen = value)"
+             SearchText="@SearchQuery"
+             SearchTextChanged="@(value => SearchQuery = value)" />
+
+@code {
+    private bool IsModalOpen = false;
+    private string SearchQuery = "";
+
+    [JSInvokable]
+    public void ShowModal()
+    {
+        IsModalOpen = true;
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("registerSearchShortcut", DotNetObjectReference.Create(this));
+        }
+    }
+}
