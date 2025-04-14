@@ -1,0 +1,47 @@
+﻿@if (IsOpen)
+{
+    <div class="search-modal" @onclick="HandleBackgroundClick">
+        <div class="search-modal-content" @onclick:stopPropagation>
+            <input id="modalSearchInput"
+                   type="text"
+                   class="modal-search-input"
+                   placeholder="Search..."
+                   @bind="SearchText"
+                   @bind:event="oninput" />
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter] public string SearchText { get; set; }
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpen)
+        {
+            await JS.InvokeVoidAsync("focusElementById", "modalSearchInput");
+        }
+
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("registerEscapeClose", DotNetObjectReference.Create(this));
+        }
+    }
+
+    private async Task HandleBackgroundClick()
+    {
+        await IsOpenChanged.InvokeAsync(false);
+    }
+
+    [JSInvokable]
+    public async Task CloseModal()
+    {
+        await IsOpenChanged.InvokeAsync(false);
+    }
+
+    [Inject] IJSRuntime JS { get; set; }
+}
