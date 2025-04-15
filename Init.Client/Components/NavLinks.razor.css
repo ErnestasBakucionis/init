@@ -1,0 +1,38 @@
+﻿.navbar-links {
+    display: flex;
+    gap: 1.2rem;
+    margin-left: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    position: relative;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.3rem 0.4rem;
+    transition: color 0.3s ease;
+}
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 100%;
+        height: 2px;
+        background-color: transparent;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    .nav-link:hover {
+        color: var(--color-accent);
+    }
+
+        .nav-link:hover::after {
+            background-color: var(--color-accent);
+            transform: scaleX(1);
+        }
