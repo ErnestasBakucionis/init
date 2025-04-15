@@ -26,6 +26,7 @@
 }
 
     .navbar-logo:hover {
+        opacity: 0.8;
         color: var(--color-accent);
     }
 
