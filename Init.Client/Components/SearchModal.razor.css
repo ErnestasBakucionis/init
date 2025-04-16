@@ -53,3 +53,23 @@
     overflow-y: auto;
     color: var(--color-subtle);
 }
+
+.search-category h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--color-heading);
+}
+
+.search-result {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+    .search-result:hover {
+        background-color: var(--color-hover);
+        color: var(--color-text-hover);
+    }
