@@ -10,8 +10,27 @@
                    @bind:event="oninput" />
 
             <div class="search-modal-body">
-                
+                @if (GroupedResults.Count == 0 && !string.IsNullOrWhiteSpace(SearchText))
+                {
+                    <div>No results found</div>
+                }
+                else
+                {
+                    @foreach (var group in GroupedResults)
+                    {
+                        <div class="search-category">
+                            <h4>@group.Key</h4>
+                            @foreach (var item in group.Value)
+                            {
+                                <div class="search-result" @onclick="@(() => NavigateTo(item.Path))">
+                                    @item.Title
+                                </div>
+                            }
+                        </div>
+                    }
+                }
             </div>
+
         </div>
     </div>
 }
@@ -41,11 +60,27 @@
         await IsOpenChanged.InvokeAsync(false);
     }
 
+    private Dictionary<string, List<SearchResultItem>> GroupedResults =>
+    string.IsNullOrWhiteSpace(SearchText)
+        ? new()
+        : SearchData.AllItems
+            .Where(item => item.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+            .GroupBy(item => item.Category)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+
+    private void NavigateTo(string path)
+    {
+        NavigationManager.NavigateTo(path);
+        IsOpenChanged.InvokeAsync(false);
+    }
+
     [JSInvokable]
     public async Task CloseModal()
     {
         await IsOpenChanged.InvokeAsync(false);
     }
 
+    [Inject] NavigationManager NavigationManager { get; set; }
     [Inject] IJSRuntime JS { get; set; }
 }
