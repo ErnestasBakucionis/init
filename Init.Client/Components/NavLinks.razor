@@ -1,6 +1,25 @@
-﻿<div class="navbar-links">
-    <a href="@AppRoutes.Home" class="nav-link">Home</a>
-    <a href="@AppRoutes.About" class="nav-link">About</a>
-    <a href="@AppRoutes.Services" class="nav-link">Services</a>
-    <a href="@AppRoutes.Contact" class="nav-link">Contact</a>
+﻿@inject ITranslationService TranslateService
+
+<div class="navbar-links">
+    <a href="@AppRoutes.Home" class="nav-link">@TranslateService.Translate("HOME")</a>
+    <a href="@AppRoutes.About" class="nav-link">@TranslateService.Translate("ABOUT")</a>
+    <a href="@AppRoutes.Services" class="nav-link">@TranslateService.Translate("SERVICES")</a>
+    <a href="@AppRoutes.Contact" class="nav-link">@TranslateService.Translate("CONTACTS")</a>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        TranslateService.OnLanguageChanged += LanguageChanged;
+    }
+
+    private void LanguageChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        TranslateService.OnLanguageChanged -= LanguageChanged;
+    }
+}
