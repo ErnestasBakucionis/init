@@ -1,4 +1,6 @@
-﻿@if (IsOpen)
+﻿@inject ITranslationService TranslateService
+
+@if (IsOpen)
 {
     <div class="search-modal" @onclick="HandleBackgroundClick">
         <div class="search-modal-content" @onclick:stopPropagation>
@@ -63,11 +65,10 @@
     private Dictionary<string, List<SearchResultItem>> GroupedResults =>
     string.IsNullOrWhiteSpace(SearchText)
         ? new()
-        : SearchData.AllItems
+        : SearchData.GetSearchItems(TranslateService)
             .Where(item => item.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
             .GroupBy(item => item.Category)
             .ToDictionary(g => g.Key, g => g.ToList());
-
 
     private void NavigateTo(string path)
     {
