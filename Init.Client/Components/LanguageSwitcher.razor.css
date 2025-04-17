@@ -1,0 +1,43 @@
+﻿.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #333;
+    padding: 6px 10px;
+    border-radius: 20px;
+    border: 1px solid #444;
+}
+
+    .language-switcher select {
+        background-color: transparent;
+        border: none;
+        color: inherit;
+        font-size: inherit;
+        cursor: pointer;
+        outline: none;
+        appearance: none;
+        padding: 6px 12px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+        .language-switcher select:hover {
+            background-color: #444;
+        }
+
+        .language-switcher select:focus {
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 0 0 2px #007bff;
+        }
+
+        .language-switcher select option {
+            background-color: #333;
+            color: #fff;
+        }
+
+            .language-switcher select option:hover {
+                background-color: #444;
+            }
