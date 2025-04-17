@@ -1,0 +1,36 @@
+﻿@inject ITranslationService TranslationService
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<select class="form-select" @onchange="ChangeLanguage" value="@TranslationService.CurrentLanguage">
+    @foreach (var lang in AvailableLanguages)
+    {
+        <option value="@lang">@lang</option>
+    }
+</select>
+
+@code {
+    private string[] AvailableLanguages => TranslationService.GetAvailableLanguages();
+
+    protected override void OnInitialized()
+    {
+        TranslationService.OnLanguageChanged += OnLanguageChanged;
+    }
+
+    private async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        var lang = e.Value?.ToString() ?? "en";
+        await JS.InvokeVoidAsync("localStorage.setItem", "lang", lang);
+        await TranslationService.LoadTranslationsAsync(lang);
+    }
+
+    private void OnLanguageChanged()
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        TranslationService.OnLanguageChanged -= OnLanguageChanged;
+    }
+}
