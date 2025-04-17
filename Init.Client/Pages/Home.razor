@@ -1,7 +1,8 @@
 ﻿@page "/"
 @inject HttpClient Http
+@inject ITranslationService TranslateService
 
-<h3>Message from Server</h3>
+<h3>@TranslateService.Translate("MESSAGE")</h3>
 
 @if (message == null)
 {
@@ -17,7 +18,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        TranslateService.OnLanguageChanged += LanguageChanged;
+
         message = await Http.GetFromJsonAsync<Message>("api/message");
-        StateHasChanged();
+    }
+
+    private void LanguageChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        TranslateService.OnLanguageChanged -= LanguageChanged;
     }
 }
