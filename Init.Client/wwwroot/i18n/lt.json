@@ -6,5 +6,10 @@
     "CONTACTS": "Kontaktai",
     "PAGES": "Puslapiai",
     "HOW_TO_CONTACT_SUPPORT": "Kaip susisiekti su pagalba?",
-    "GETTING_STARTED": "Pradžia su mūsų paslaugomis"
+    "GETTING_STARTED": "Pradžia su mūsų paslaugomis",
+    "SEARCH_BAR_PLACEHOLDER": "Paieška... (spausti /)",
+    "SEARCH": "Paieška...",
+    "NO_RESULTS_FOUND": "Rezultatų nerasta",
+    "NOTHING_AT_THIS_ADDRESS": "Atsiprašome, šiame adrese nieko nėra.",
+    "NOT_FOUND": "Nerasta"
 }
