@@ -1,8 +1,8 @@
-﻿@inject ITranslationService TranslationService
+﻿@inject NavigationManager NavigationManager
+@inject ITranslationService TranslationService
 @inject IJSRuntime JS
-@inject NavigationManager NavigationManager
 
-<select class="form-select" @onchange="ChangeLanguage" value="@TranslationService.CurrentLanguage">
+<select class="language-switcher form-select" @onchange="ChangeLanguage" value="@TranslationService.CurrentLanguage">
     @foreach (var lang in AvailableLanguages)
     {
         <option value="@lang">@lang</option>
