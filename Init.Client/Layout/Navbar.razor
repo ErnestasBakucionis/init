@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime JS
+@inherits AppComponentBase
 
 <div class="navbar">
     <div class="navbar-brand">
@@ -12,7 +13,7 @@
         <div class="navbar-search-container">
             <img src="icons/search_icon.svg" alt="Search Icon" class="search-icon" />
             <input type="text"
-                   placeholder="Search... (press /)"
+                   placeholder="@TranslateService.Translate("SEARCH_BAR_PLACEHOLDER")"
                    class="navbar-search"
                    @onfocus="() => ShowModal()" />
         </div>
