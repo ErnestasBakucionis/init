@@ -7,9 +7,9 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
+        <PageTitle>@TranslationService.Translate("NOT_FOUND")</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+            <p role="alert">@TranslationService.Translate("NOTHING_AT_THIS_ADDRESS")</p>
         </LayoutView>
     </NotFound>
 </Router>
