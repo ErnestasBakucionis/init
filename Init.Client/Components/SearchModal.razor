@@ -1,4 +1,4 @@
-﻿@inject ITranslationService TranslateService
+﻿@inherits AppComponentBase
 
 @if (IsOpen)
 {
@@ -7,14 +7,14 @@
             <input id="modalSearchInput"
                    type="text"
                    class="modal-search-input"
-                   placeholder="Search..."
+                   placeholder="@TranslateService.Translate("SEARCH")"
                    @bind="SearchText"
                    @bind:event="oninput" />
 
             <div class="search-modal-body">
                 @if (GroupedResults.Count == 0 && !string.IsNullOrWhiteSpace(SearchText))
                 {
-                    <div>No results found</div>
+                    <div>@TranslateService.Translate("NO_RESULTS_FOUND")</div>
                 }
                 else
                 {
