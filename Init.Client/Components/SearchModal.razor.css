@@ -73,3 +73,8 @@
         background-color: var(--color-hover);
         color: var(--color-text-hover);
     }
+
+    .search-result.selected {
+        background-color: var(--color-accent);
+        color: white;
+    }
