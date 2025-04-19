@@ -1,4 +1,14 @@
-﻿window.registerEscapeClose = function (dotNetHelper) {
+﻿window.scrollElementIntoView = function (index) {
+    var element = document.querySelectorAll('.search-result')[index];
+    if (element) {
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+        });
+    }
+};
+
+window.registerEscapeClose = function (dotNetHelper) {
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             dotNetHelper.invokeMethodAsync('CloseModal');
@@ -7,9 +17,9 @@
 };
 
 window.focusElementById = function (id) {
-    const el = document.getElementById(id);
-    if (el) {
-        el.focus();
+    var element = document.getElementById(id);
+    if (element) {
+        element.focus();
     }
 };
 
