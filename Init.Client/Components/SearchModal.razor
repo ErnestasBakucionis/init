@@ -9,7 +9,8 @@
                    class="modal-search-input"
                    placeholder="@TranslateService.Translate("SEARCH")"
                    @bind="SearchText"
-                   @bind:event="oninput" />
+                   @bind:event="oninput"
+                   @onkeydown="HandleKeyDown" />
 
             <div class="search-modal-body">
                 @if (GroupedResults.Count == 0 && !string.IsNullOrWhiteSpace(SearchText))
@@ -18,15 +19,20 @@
                 }
                 else
                 {
+                    var flatIndex = 0;
                     @foreach (var group in GroupedResults)
                     {
                         <div class="search-category">
                             <h4>@group.Key</h4>
                             @foreach (var item in group.Value)
                             {
-                                <div class="search-result" @onclick="@(() => NavigateTo(item.Path))">
+                                var isSelected = flatIndex == selectedIndex;
+                                <div class="search-result @(isSelected ? "selected" : "")"
+                                     @onclick="@(() => NavigateTo(item.Path))"
+                                     @onmouseover="() => SetSelectedIndex(flatIndex)">
                                     @item.Title
                                 </div>
+                                flatIndex++;
                             }
                         </div>
                     }
@@ -37,12 +43,25 @@
     </div>
 }
 
-
 @code {
+    [Inject] NavigationManager NavigationManager { get; set; }
+    [Inject] IJSRuntime JS { get; set; }
     [Parameter] public bool IsOpen { get; set; }
     [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
     [Parameter] public string SearchText { get; set; }
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    private int selectedIndex = -1;
+
+    private List<SearchResultItem> FlatResults => GroupedResults.SelectMany(g => g.Value).ToList();
+
+    private Dictionary<string, List<SearchResultItem>> GroupedResults =>
+        string.IsNullOrWhiteSpace(SearchText)
+            ? new()
+            : SearchData.GetSearchItems(TranslateService)
+                .Where(item => item.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                .GroupBy(item => item.Category)
+                .ToDictionary(g => g.Key, g => g.ToList());
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -51,10 +70,44 @@
             await JS.InvokeVoidAsync("focusElementById", "modalSearchInput");
         }
 
-        if (firstRender)
+        if (selectedIndex >= 0 && selectedIndex < FlatResults.Count)
         {
-            await JS.InvokeVoidAsync("registerEscapeClose", DotNetObjectReference.Create(this));
+            await JS.InvokeVoidAsync("scrollElementIntoView", selectedIndex);
         }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        var results = FlatResults;
+
+        if (results.Count == 0)
+            return;
+
+        if (e.Key == "ArrowDown" || e.Key == "ArrowUp")
+        {
+            await JS.InvokeVoidAsync("eval", "event.preventDefault(); event.stopPropagation();");
+        }
+
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                selectedIndex = (selectedIndex + 1) % results.Count;
+                break;
+
+            case "ArrowUp":
+                selectedIndex = (selectedIndex - 1 + results.Count) % results.Count;
+                break;
+
+            case "Enter":
+                if (selectedIndex >= 0 && selectedIndex < results.Count)
+                {
+                    NavigateTo(results[selectedIndex].Path);
+                    return;
+                }
+                break;
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task HandleBackgroundClick()
@@ -62,18 +115,15 @@
         await IsOpenChanged.InvokeAsync(false);
     }
 
-    private Dictionary<string, List<SearchResultItem>> GroupedResults =>
-    string.IsNullOrWhiteSpace(SearchText)
-        ? new()
-        : SearchData.GetSearchItems(TranslateService)
-            .Where(item => item.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
-            .GroupBy(item => item.Category)
-            .ToDictionary(g => g.Key, g => g.ToList());
-
     private void NavigateTo(string path)
     {
         NavigationManager.NavigateTo(path);
         IsOpenChanged.InvokeAsync(false);
+    }
+
+    private void SetSelectedIndex(int index)
+    {
+        selectedIndex = index;
     }
 
     [JSInvokable]
@@ -81,7 +131,4 @@
     {
         await IsOpenChanged.InvokeAsync(false);
     }
-
-    [Inject] NavigationManager NavigationManager { get; set; }
-    [Inject] IJSRuntime JS { get; set; }
 }
