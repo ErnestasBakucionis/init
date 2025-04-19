@@ -1,4 +1,6 @@
-﻿namespace Init.Client.Services;
+﻿using Init.Client.Models;
+
+namespace Init.Client.Services;
 
 public interface ITranslationService
 {
@@ -7,5 +9,6 @@ public interface ITranslationService
 
     Task LoadTranslationsAsync(string language);
     string Translate(string key);
-    string[] GetAvailableLanguages();
+
+    LanguageOption[] GetAvailableLanguages();
 }
