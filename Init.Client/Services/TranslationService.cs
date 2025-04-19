@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Init.Client.Models;
+using System.Text.Json;
 
 namespace Init.Client.Services;
 
@@ -8,7 +9,12 @@ public class TranslationService : ITranslationService
     private Dictionary<string, string> _translations = new();
 
     public string CurrentLanguage { get; private set; } = "en";
-    private readonly string[] _availableLanguages = new[] { "en", "lt" };
+
+    private readonly LanguageOption[] _availableLanguages = new[]
+    {
+        new LanguageOption("en", "English", "🇬🇧"),
+        new LanguageOption("lt", "Lietuvių", "🇱🇹")
+    };
 
     public event Action? OnLanguageChanged;
 
@@ -17,7 +23,7 @@ public class TranslationService : ITranslationService
         _frontendHttpClient = clientFactory.CreateClient("FrontendClient");
     }
 
-    public string[] GetAvailableLanguages() => _availableLanguages;
+    public LanguageOption[] GetAvailableLanguages() => _availableLanguages;
 
     public async Task LoadTranslationsAsync(string language)
     {
