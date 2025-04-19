@@ -5,12 +5,12 @@
 <select class="language-switcher form-select" @onchange="ChangeLanguage" value="@TranslationService.CurrentLanguage">
     @foreach (var lang in AvailableLanguages)
     {
-        <option value="@lang">@lang</option>
+        <option value="@lang.Code">@lang.Flag</option>
     }
 </select>
 
 @code {
-    private string[] AvailableLanguages => TranslationService.GetAvailableLanguages();
+    private LanguageOption[] AvailableLanguages => TranslationService.GetAvailableLanguages();
 
     protected override void OnInitialized()
     {
